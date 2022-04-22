@@ -3,10 +3,10 @@ import cors from 'cors';
 
 const server = express();
 server.use(json());
-server.use(cors())
+server.use(cors());
 
 server.listen(5000, () => {
-    console.log('Servidor iniciado em http://localhost:5000');
+    console.log('Running on http://localhost:5000');
 });
 
 const users = [];
@@ -18,12 +18,7 @@ server.post('/sign-up', (req, res) => {
 });
 
 server.post('/tweets', (req, res) => {
-    const tweet = req.body;
-    const user = users.find(user => user.username === tweet.username);
-    tweets.push({...tweet, avatar: user.avatar});
+    tweets.push(req.body);
     res.send('OK');
 });
 
-server.get('/tweets', (req, res) => {
-    res.send(tweets);
-});
