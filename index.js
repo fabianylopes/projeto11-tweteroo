@@ -13,19 +13,26 @@ server.post('/sign-up', (req, res) => {
     
     if(body.username === '' || body.avatar === ''){
         res.status(400).send('Todos os campos são obrigatórios!');
-    }else {
-        users.push(body);
-        res.sendStatus(201);
+        return;
     }
+
+    users.push(body);
+    res.sendStatus(201);
 });
 
 server.post('/tweets', (req, res) => {
-    const tweet = req.body;
+    const username = req.headers.user;
+    const tweet = req.body.tweet;
+    
+    if(username === '' || tweet === ''){
+        res.status(400).send('Todos os campos são obrigatórios!');
+        return;
+    }
+    
+    const avatar = users.find(user => user.username === username).avatar;
+    tweets.push({username, tweet, avatar});
 
-    const userInfo = users.find(user => user.username === tweet.username);
-    tweets.push({...tweet, avatar: userInfo.avatar});
-
-    res.send('OK');
+    res.sendStatus(201);
 });
 
 server.get('/tweets', (req, res) => {
