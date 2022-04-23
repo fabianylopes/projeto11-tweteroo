@@ -47,6 +47,13 @@ server.get('/tweets', (req, res) => {
     res.send(lastTweets);
 });
 
+server.get('/tweets/:user', (req, res) => {
+    const userId = req.params.user;
+    const userTweets = tweets.filter(tweet => tweet.username === userId);
+
+    res.send(userTweets);
+});
+
 server.listen(5000, () => {
     console.log('Running on http://localhost:5000');
 });
