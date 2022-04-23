@@ -10,9 +10,13 @@ const tweets = [];
 
 server.post('/sign-up', (req, res) => {
     const body = req.body;
-    users.push(body);
     
-    res.send('OK');
+    if(body.username === '' || body.avatar === ''){
+        res.status(400).send('Todos os campos são obrigatórios!');
+    }else {
+        users.push(body);
+        res.sendStatus(201);
+    }
 });
 
 server.post('/tweets', (req, res) => {
